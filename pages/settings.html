@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - ShopAdmin</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><i class="fas fa-store"></i><h2>ShopAdmin</h2></div>
+            <nav class="sidebar-nav">
+                <a href="../index.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+                <a href="orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+                <a href="customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+                <a href="analytics.html" class="nav-item"><i class="fas fa-chart-line"></i> Analytics</a>
+                <a href="settings.html" class="nav-item active"><i class="fas fa-cog"></i> Settings</a>
+            </nav>
+            <div class="sidebar-footer"><div class="user-info"><img src="https://ui-avatars.com/api/?name=Admin+User&background=4f46e5&color=fff" alt="Admin"><div><strong>Admin User</strong><span>admin@shop.com</span></div></div></div>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Search settings..."></div>
+                <div class="topbar-actions"><button class="icon-btn" id="notifBtn"><i class="fas fa-bell"></i><span class="badge">3</span></button></div>
+            </header>
+            <div class="content">
+                <div class="page-header"><h1>Settings</h1><p>Configure your store preferences</p></div>
+                <div class="table-card" style="max-width:700px;">
+                    <h3 style="margin-bottom:20px;">Store Information</h3>
+                    <div class="form-group"><label>Store Name</label><input type="text" class="form-control" id="storeName" value="ShopAdmin Demo Store"></div>
+                    <div class="form-group"><label>Store Email</label><input type="email" class="form-control" id="storeEmail" value="contact@shopadmin.com"></div>
+                    <div class="form-group"><label>Currency</label>
+                        <select class="form-control" id="currency">
+                            <option value="USD" selected>USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="INR">INR (₹)</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Timezone</label>
+                        <select class="form-control" id="timezone">
+                            <option>UTC</option>
+                            <option selected>America/New_York</option>
+                            <option>Europe/London</option>
+                            <option>Asia/Kolkata</option>
+                        </select>
+                    </div>
+                    <hr style="margin:24px 0;border:none;border-top:1px solid var(--border);">
+                    <h3 style="margin-bottom:20px;">Notifications</h3>
+                    <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+                        <input type="checkbox" id="emailNotif" checked> <label for="emailNotif" style="margin:0;">Email notifications for new orders</label>
+                    </div>
+                    <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+                        <input type="checkbox" id="stockNotif" checked> <label for="stockNotif" style="margin:0;">Low stock alerts</label>
+                    </div>
+                    <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+                        <input type="checkbox" id="reportNotif"> <label for="reportNotif" style="margin:0;">Weekly performance reports</label>
+                    </div>
+                    <button class="btn" id="saveSettings" style="margin-top:16px;"><i class="fas fa-save"></i> Save Settings</button>
+                    <button class="btn btn-danger" id="clearData" style="margin-top:16px;margin-left:10px;"><i class="fas fa-trash"></i> Clear All Local Data</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="notif-panel" id="notifPanel"><div class="notif-header"><h3>Notifications</h3><button id="closeNotif"><i class="fas fa-times"></i></button></div><div class="notif-list"></div></div>
+    <script src="../js/app.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Load saved settings
+        const settings = App.getData('settings', {});
+        if (settings.storeName) document.getElementById('storeName').value = settings.storeName;
+        if (settings.storeEmail) document.getElementById('storeEmail').value = settings.storeEmail;
+        if (settings.currency) document.getElementById('currency').value = settings.currency;
+        if (settings.timezone) document.getElementById('timezone').value = settings.timezone;
+        if (settings.emailNotif !== undefined) document.getElementById('emailNotif').checked = settings.emailNotif;
+        if (settings.stockNotif !== undefined) document.getElementById('stockNotif').checked = settings.stockNotif;
+        if (settings.reportNotif !== undefined) document.getElementById('reportNotif').checked = settings.reportNotif;
+
+        document.getElementById('saveSettings').addEventListener('click', () => {
+            const s = {
+                storeName: document.getElementById('storeName').value,
+                storeEmail: document.getElementById('storeEmail').value,
+                currency: document.getElementById('currency').value,
+                timezone: document.getElementById('timezone').value,
+                emailNotif: document.getElementById('emailNotif').checked,
+                stockNotif: document.getElementById('stockNotif').checked,
+                reportNotif: document.getElementById('reportNotif').checked
+            };
+            App.setData('settings', s);
+            App.toast('Settings saved successfully!');
+        });
+
+        document.getElementById('clearData').addEventListener('click', () => {
+            if (confirm('This will clear all products, orders, customers and settings from local storage. Continue?')) {
+                localStorage.clear();
+                App.toast('All local data cleared. Refresh the page.', 'error');
+            }
+        });
+    });
+    </script>
+</body>
+</html>
+"// settings panel improvements" 
