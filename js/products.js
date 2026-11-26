@@ -175,3 +175,4 @@ const ProductsPage = {
 };
 
 document.addEventListener('DOMContentLoaded', () => ProductsPage.init());
+"/* refined validation */" 
