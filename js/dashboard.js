@@ -86,3 +86,4 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('totalRevenue').textContent = App.formatCurrency(revenue || 24580);
     }
 });
+"// chart visualization updates" 
