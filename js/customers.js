@@ -95,3 +95,4 @@ const CustomersPage = {
 };
 
 document.addEventListener('DOMContentLoaded', () => CustomersPage.init());
+"// customer module updates" 
